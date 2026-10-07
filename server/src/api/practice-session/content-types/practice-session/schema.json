@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "practice_sessions",
+  "info": {
+    "singularName": "practice-session",
+    "pluralName": "practice-sessions",
+    "displayName": "PracticeSession"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "practice_sessions"
+    }
+  }
+}
