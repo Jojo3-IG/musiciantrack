@@ -1,9 +1,9 @@
-const { createCoreController } = require('@strapi/strapi').factories;
+import { factories } from '@strapi/strapi';
 
-module.exports = createCoreController(
+export default factories.createCoreController(
   'api::practice-session.practice-session',
   () => ({
-    async find(ctx) {
+    async find(ctx: any) {
       ctx.query = {
         ...ctx.query,
         filters: {
@@ -14,7 +14,7 @@ module.exports = createCoreController(
       return super.find(ctx);
     },
 
-    async create(ctx) {
+    async create(ctx: any) {
       ctx.request.body.data = {
         ...ctx.request.body.data,
         user: ctx.state.user.id,
