@@ -40,6 +40,20 @@ export function practiceStreak(sessions) {
     day.setDate(day.getDate() - 1); // go back one day
   }
   return streak;
+}
 
+export function last7Days(sessions) {
+  const result = [];
+  const day = new Date();
+  day.setDate(day.getDate() - 6); // start 6 days ago
 
+  for (let i = 0; i < 7; i++) {
+    const text = toDateString(day);
+    const minutes = sessions
+      .filter((s) => s.date === text)
+      .reduce((sum, s) => sum + s.duration_min, 0);
+    result.push({ day: text.slice(5), minutes }); // slice(5) keeps "10-08"
+    day.setDate(day.getDate() + 1); // move forward one day
+  }
+  return result;
 }

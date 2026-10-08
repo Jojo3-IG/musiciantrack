@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { getSessions, addSession, deleteSession } from '../api';
-import { minutesThisWeek, practiceStreak } from '../utils/stats';
+import { minutesThisWeek, practiceStreak, last7Days } from '../utils/stats';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 const INSTRUMENTS = ['piano', 'keys', 'drums', 'bass', 'guitar', 'vocals', 'other'];
 
@@ -68,6 +69,7 @@ export default function Dashboard() {
   const totalMinutes = sessions.reduce((sum, s) => sum + (s.duration_min || 0), 0);
   const weekMinutes =minutesThisWeek(sessions);
   const streak = practiceStreak(sessions);
+  const chartData = last7Days(sessions);
 
   return (
     <div>
@@ -77,6 +79,18 @@ export default function Dashboard() {
       <p>Total practice time: {Math.floor(totalMinutes / 60)}h {totalMinutes % 60}min</p>
       <p>This week: {Math.floor(weekMinutes / 60)}h {weekMinutes % 60}min</p>
       <p>Streak: {streak} day{streak !== 1 ? 's' : ''} 🔥</p>
+
+      <h2>Last 7 days</h2>
+        <div style={{ width: '100%', height: 250 }}>
+             <ResponsiveContainer>
+                <BarChart data={chartData}>
+                <XAxis dataKey="day" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="minutes" fill="#6366f1" />
+                </BarChart>
+            </ResponsiveContainer>
+        </div>
 
       <h2>Add a session</h2>
       <form onSubmit={handleSubmit}>
