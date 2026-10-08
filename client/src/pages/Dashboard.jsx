@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { getSessions, addSession, deleteSession } from '../api';
-import { minutesThisWeek } from '../utils/stats';
+import { minutesThisWeek, practiceStreak } from '../utils/stats';
 
 const INSTRUMENTS = ['piano', 'keys', 'drums', 'bass', 'guitar', 'vocals', 'other'];
 
@@ -67,6 +67,7 @@ export default function Dashboard() {
 
   const totalMinutes = sessions.reduce((sum, s) => sum + (s.duration_min || 0), 0);
   const weekMinutes =minutesThisWeek(sessions);
+  const streak = practiceStreak(sessions);
 
   return (
     <div>
@@ -75,6 +76,7 @@ export default function Dashboard() {
 
       <p>Total practice time: {Math.floor(totalMinutes / 60)}h {totalMinutes % 60}min</p>
       <p>This week: {Math.floor(weekMinutes / 60)}h {weekMinutes % 60}min</p>
+      <p>Streak: {streak} day{streak !== 1 ? 's' : ''} 🔥</p>
 
       <h2>Add a session</h2>
       <form onSubmit={handleSubmit}>

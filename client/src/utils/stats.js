@@ -22,3 +22,24 @@ export function minutesThisWeek(sessions) {
   const thisWeek = sessions.filter((s) => s.date >= monday);
   return thisWeek.reduce((sum, s) => sum + s.duration_min, 0);
 }
+
+export function practiceStreak(sessions) {
+    // A Set is a list without duplicates, fast to search
+    const days = new Set(sessions.map((s)=> s.date))
+    
+    const day = new Date();
+
+    // No practice today yet? The streak can still be alive from yesterday
+    if (!days.has(toDateString(day))) {
+        day.setDate(day.getDate() - 1);
+    }
+
+      let streak = 0;
+  while (days.has(toDateString(day))) {
+    streak++;
+    day.setDate(day.getDate() - 1); // go back one day
+  }
+  return streak;
+
+
+}
