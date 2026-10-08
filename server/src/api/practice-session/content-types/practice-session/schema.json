@@ -16,6 +16,30 @@
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "practice_sessions"
+    },
+    "date": {
+      "type": "date"
+    },
+    "duration_min": {
+      "type": "integer"
+    },
+    "instrument": {
+      "type": "enumeration",
+      "enum": [
+        "paino",
+        "keys",
+        "drums",
+        "bass",
+        "guitar",
+        "vocals",
+        "others"
+      ]
+    },
+    "focus": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "text"
     }
   }
 }

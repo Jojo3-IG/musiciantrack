@@ -495,12 +495,19 @@ export interface ApiPracticeSessionPracticeSession
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
+    duration_min: Schema.Attribute.Integer;
+    focus: Schema.Attribute.String;
+    instrument: Schema.Attribute.Enumeration<
+      ['paino', 'keys', 'drums', 'bass', 'guitar', 'vocals', 'others']
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::practice-session.practice-session'
     > &
       Schema.Attribute.Private;
+    notes: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

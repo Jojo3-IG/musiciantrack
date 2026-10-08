@@ -1,25 +1,43 @@
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreController(
-  'api::practice-session.practice-session',
-  () => ({
-    async find(ctx: any) {
-      ctx.query = {
-        ...ctx.query,
-        filters: {
-          ...ctx.query.filters,
-          user: { id: ctx.state.user.id },
-        },
-      };
-      return super.find(ctx);
-    },
+const UID = 'api::practice-session.practice-session';
 
-    async create(ctx: any) {
-      ctx.request.body.data = {
-        ...ctx.request.body.data,
-        user: ctx.state.user.id,
-      };
-      return super.create(ctx);
-    },
-  })
-);
+export default factories.createCoreController(UID, () => ({
+  async find(ctx: any) {
+    const results = await strapi.documents(UID).findMany({
+      filters: { user: { id: ctx.state.user.id } },
+      sort: ['date:desc'],
+    });
+    return { data: results, meta: {} };
+  },
+
+  async create(ctx: any) {
+  const { date, duration_min, instrument, focus, notes } = ctx.request.body.data;
+
+  const data: any = {
+    date,
+    duration_min,
+    instrument,
+    focus,
+    notes,
+    user: ctx.state.user.documentId,
+  };
+
+  const created = await strapi.documents(UID).create({ data });
+  return { data: created, meta: {} };
+},
+
+    
+
+  async delete(ctx: any) {
+    const { id } = ctx.params; // this is the documentId
+    const existing = await strapi.documents(UID).findFirst({
+      filters: { documentId: id, user: { id: ctx.state.user.id } },
+    });
+    if (!existing) {
+      return ctx.notFound('Session not found');
+    }
+    await strapi.documents(UID).delete({ documentId: id });
+    return { data: existing, meta: {} };
+  },
+}));
