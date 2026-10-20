@@ -1,97 +1,123 @@
+/* Light theme (default) */
 :root {
   --bg: #f4f5fb;
   --card: #ffffff;
   --text: #1f2937;
   --muted: #6b7280;
   --primary: #6366f1;
+  --primary-soft: #eef2ff;
+  --border: #e5e7eb;
   --danger: #ef4444;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+/* Dark theme: same names, different values */
+[data-theme='dark'] {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --primary: #818cf8;
+  --primary-soft: #312e81;
+  --border: #334155;
+  --danger: #f87171;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: 'Montserrat', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
+  transition: background 0.3s, color 0.3s;
 }
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 16px;
+.container { max-width: 800px; margin: 0 auto; padding: 16px; }
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
+.topbar h1 { font-size: 1.4rem; margin: 0; }
+.actions { display: flex; gap: 8px; }
 
 .card {
   background: var(--card);
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 20px;
   margin-bottom: 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow);
+  transition: background 0.3s;
 }
+.card h2 { margin-top: 0; font-size: 1.1rem; }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+.encourage {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
 }
+.encourage p { margin: 0; }
+.encourage .verse { font-size: 0.85rem; opacity: 0.85; margin-top: 8px; }
 
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .stat { text-align: center; }
-.stat .value { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
-.stat .label { font-size: 0.85rem; color: var(--muted); }
+.stat .value { font-size: 1.6rem; font-weight: 700; color: var(--primary); }
+.stat .label { font-size: 0.8rem; color: var(--muted); }
 
-form { display: grid; gap: 8px; }
+form { display: grid; gap: 10px; }
 
 input, select, textarea {
-  padding: 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 1rem;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.95rem;
   font-family: inherit;
+  background: var(--bg);
+  color: var(--text);
+}
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--primary);
+  border-color: transparent;
 }
 
 button {
-  padding: 10px 14px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--primary);
   color: white;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 600;
   cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+}
+button:hover { opacity: 0.9; }
+button:active { transform: scale(0.97); }
+button.danger { background: var(--danger); }
+button.ghost {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
 }
 
-button.danger { background: var(--danger); }
-
 ul { list-style: none; padding: 0; margin: 0; }
-
 li {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
 }
 
-.heatmap-scroll { overflow-x: auto; }
+/* Make chart text readable in dark mode */
+.recharts-text, .recharts-legend-item-text { fill: var(--text) !important; color: var(--text) !important; }
 
-.heatmap {
-  display: grid;
-  grid-template-rows: repeat(7, 14px);
-  grid-auto-flow: column;
-  grid-auto-columns: 14px;
-  gap: 3px;
-}
-
-.cell { border-radius: 3px; }
-.level-0 { background: #ebedf0; }
-.level-1 { background: #c7d2fe; }
-.level-2 { background: #a5b4fc; }
-.level-3 { background: #818cf8; }
-.level-4 { background: #4f46e5; }
-.future { background: transparent; }
-
-/* Phone: stack the 3 stats vertically */
 @media (max-width: 600px) {
   .stats { grid-template-columns: 1fr; }
 }

@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { getSessions, addSession, deleteSession } from '../api';
 import { minutesThisWeek, practiceStreak } from '../utils/stats';
 import InstrumentPie from '../components/InstrumentPie';
+import Encouragement from '../components/Encouragement';
 
 
 const INSTRUMENTS = ['piano', 'keys', 'drums', 'bass', 'guitar', 'vocals', 'other'];
@@ -32,8 +33,20 @@ export default function Dashboard() {
     loadSessions();
   }, []);
 
+  useEffect(() => {
+    loadSessions();
+  }, []);
+
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
   // Not logged in: go to login (placed after the hooks on purpose)
   if (!localStorage.getItem('jwt')) {
+    
     return <Navigate to="/login" />;
   }
 
@@ -74,8 +87,17 @@ export default function Dashboard() {
 
   return (
   <div className='container'>
-      <h1>My practice dashboard</h1>
-      <button onClick={handleLogout}>Log out</button>
+      
+      <header className="topbar">
+            <h1>🎹 MusicianTrack</h1>
+            <div className="actions">
+              <button className="ghost" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+                {theme === 'light' ? '🌙' : '☀️'}
+                </button>
+                <button className="ghost" onClick={handleLogout}>Log out</button>
+            </div>
+      </header>
+      <Encouragement streak={streak} />
 
     <div className="card stats">
         <div className="stat">
