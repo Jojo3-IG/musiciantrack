@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { getSessions, addSession, deleteSession } from '../api';
-import { minutesThisWeek, practiceStreak, last7Days } from '../utils/stats';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { minutesThisWeek, practiceStreak } from '../utils/stats';
+import InstrumentPie from '../components/InstrumentPie';
+
 
 const INSTRUMENTS = ['piano', 'keys', 'drums', 'bass', 'guitar', 'vocals', 'other'];
 
@@ -69,29 +70,32 @@ export default function Dashboard() {
   const totalMinutes = sessions.reduce((sum, s) => sum + (s.duration_min || 0), 0);
   const weekMinutes =minutesThisWeek(sessions);
   const streak = practiceStreak(sessions);
-  const chartData = last7Days(sessions);
+ 
 
   return (
-    <div>
+  <div className='container'>
       <h1>My practice dashboard</h1>
       <button onClick={handleLogout}>Log out</button>
 
-      <p>Total practice time: {Math.floor(totalMinutes / 60)}h {totalMinutes % 60}min</p>
-      <p>This week: {Math.floor(weekMinutes / 60)}h {weekMinutes % 60}min</p>
-      <p>Streak: {streak} day{streak !== 1 ? 's' : ''} 🔥</p>
-
-      <h2>Last 7 days</h2>
-        <div style={{ width: '100%', height: 250 }}>
-             <ResponsiveContainer>
-                <BarChart data={chartData}>
-                <XAxis dataKey="day" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="minutes" fill="#6366f1" />
-                </BarChart>
-            </ResponsiveContainer>
+    <div className="card stats">
+        <div className="stat">
+            <div className="value">{Math.floor(totalMinutes / 60)}h {totalMinutes % 60}m</div>
+            <div className="label">Total</div>
         </div>
+        <div className="stat">
+            <div className="value">{Math.floor(weekMinutes / 60)}h {weekMinutes % 60}m</div>
+            <div className="label">This week</div>
+        </div>
+        <div className="stat">
+            <div className="value">{streak} 🔥</div>
+            <div className="label">Day streak</div>
+        </div>
+      </div>
 
+        <InstrumentPie sessions={sessions} />
+    
+      
+      <div className='Card'>
       <h2>Add a session</h2>
       <form onSubmit={handleSubmit}>
         <input type="date" name="date" value={form.date} onChange={handleChange} required />
@@ -118,6 +122,7 @@ export default function Dashboard() {
           </li>
         ))}
       </ul>
+    </div>
     </div>
   );
 }

@@ -57,3 +57,47 @@ export function last7Days(sessions) {
   }
   return result;
 }
+
+export function heatmapData(sessions, weeks = 15) {
+  // minutes practiced for each date, like { '2026-10-08': 45 }
+  const minutesByDate = {};
+  sessions.forEach((s) => {
+    minutesByDate[s.date] = (minutesByDate[s.date] || 0) + s.duration_min;
+  });
+
+  const todayText = toDateString(new Date());
+
+  // start on the Monday of the first week shown
+  const day = new Date();
+  const dayOfWeek = day.getDay();
+  const daysSinceMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+  day.setDate(day.getDate() - daysSinceMonday - (weeks - 1) * 7);
+
+  const cells = [];
+  for (let i = 0; i < weeks * 7; i++) {
+    const date = toDateString(day);
+    cells.push({
+      date,
+      minutes: minutesByDate[date] || 0,
+      future: date > todayText,
+    });
+    day.setDate(day.getDate() + 1); // move forward one day
+  }
+  return cells;
+}
+
+export function levelFor(minutes) {
+  if (minutes === 0) return 0;
+  if (minutes < 30) return 1;
+  if (minutes < 60) return 2;
+  if (minutes < 90) return 3;
+  return 4;
+}
+
+export function byInstrument(sessions) {
+  const totals = {};
+  sessions.forEach((s) => {
+    totals[s.instrument] = (totals[s.instrument] || 0) + s.duration_min;
+  });
+  return Object.entries(totals).map(([name, minutes]) => ({ name, minutes }));
+}
