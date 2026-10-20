@@ -22,19 +22,24 @@ export default function Register() {
   }
 
   return (
-    <div>
-      <h1>Create an account</h1>
-      <form onSubmit={handleSubmit}>
-        <input placeholder="Name" value={username}
-          onChange={(e) => setUsername(e.target.value)} required />
-        <input type="email" placeholder="Email" value={email}
-          onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password (min 6 characters)" value={password}
-          onChange={(e) => setPassword(e.target.value)} required minLength={6} />
-        <button type="submit">Sign up</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <p>Already have an account? <Link to="/login">Log in</Link></p>
+    <div className="auth-page">
+      <div className="auth-card">
+        <h1>🎹 MusicianTrack</h1>
+        <p className="subtitle">Create your account</p>
+
+        <form onSubmit={handleSubmit}>
+          <input placeholder="Name" value={username}
+            onChange={(e) => setUsername(e.target.value)} required />
+          <input type="email" placeholder="Email" value={email}
+            onChange={(e) => setEmail(e.target.value)} required />
+          <input type="password" placeholder="Password (min 6 characters)" value={password}
+            onChange={(e) => setPassword(e.target.value)} required minLength={6} />
+          <button type="submit">Sign up</button>
+        </form>
+
+        {error && <p className="error">{error}</p>}
+        <p className="switch">Already have an account? <Link to="/login">Log in</Link></p>
+      </div>
     </div>
   );
 }

@@ -21,17 +21,22 @@ export default function Login() {
   }
 
   return (
-    <div>
-      <h1>Log in</h1>
-      <form onSubmit={handleSubmit}>
-        <input placeholder="Email" value={identifier}
-          onChange={(e) => setIdentifier(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password}
-          onChange={(e) => setPassword(e.target.value)} required />
-        <button type="submit">Log in</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <p>No account yet? <Link to="/register">Sign up</Link></p>
+    <div className="auth-page">
+      <div className="auth-card">
+        <h1>🎹 MusicianTrack</h1>
+        <p className="subtitle">Log in to track your practice</p>
+
+        <form onSubmit={handleSubmit}>
+          <input placeholder="Email" value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)} required />
+          <input type="password" placeholder="Password" value={password}
+            onChange={(e) => setPassword(e.target.value)} required />
+          <button type="submit">Log in</button>
+        </form>
+
+        {error && <p className="error">{error}</p>}
+        <p className="switch">No account yet? <Link to="/register">Sign up</Link></p>
+      </div>
     </div>
   );
 }

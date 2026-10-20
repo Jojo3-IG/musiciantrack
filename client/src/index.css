@@ -36,6 +36,34 @@ body {
 
 .container { max-width: 800px; margin: 0 auto; padding: 16px; }
 
+/* Login and Register pages */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--card);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.auth-card h1 { margin: 0 0 4px; font-size: 1.5rem; }
+.auth-card .subtitle { margin: 0 0 20px; color: var(--muted); font-size: 0.9rem; }
+.auth-card form { text-align: left; }
+.auth-card button[type='submit'] { width: 100%; margin-top: 4px; }
+.auth-card .switch { margin: 16px 0 0; font-size: 0.85rem; color: var(--muted); }
+.auth-card .switch a { color: var(--primary); font-weight: 600; text-decoration: none; }
+.auth-card .error { color: var(--danger); font-size: 0.85rem; margin: 10px 0 0; }
+
+
 .topbar {
   display: flex;
   justify-content: space-between;
