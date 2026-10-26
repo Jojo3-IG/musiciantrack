@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { getSessions, addSession, deleteSession } from '../api';
+import { getSessions, addSession, deleteSession,getAssignment,getAllAssignments} from '../api';
 import { minutesThisWeek, practiceStreak } from '../utils/stats';
 import InstrumentPie from '../components/InstrumentPie';
 import Encouragement from '../components/Encouragement';
+import WeeklyAssignment from '../components/WeeklyAssignments';
 
 
 const INSTRUMENTS = ['piano', 'keys', 'drums', 'bass', 'guitar', 'vocals', 'other'];
@@ -33,16 +34,19 @@ export default function Dashboard() {
     loadSessions();
   }, []);
 
-  useEffect(() => {
-    loadSessions();
-  }, []);
-
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+const [myInstrument, setMyInstrument] = useState(localStorage.getItem('myInstrument') || 'piano');
+
+function chooseInstrument(value) {
+  setMyInstrument(value);
+  localStorage.setItem('myInstrument', value);
+}
 
   // Not logged in: go to login (placed after the hooks on purpose)
   if (!localStorage.getItem('jwt')) {
@@ -99,6 +103,15 @@ export default function Dashboard() {
       </header>
       <Encouragement streak={streak} />
 
+    <div className="card">
+          <label>I play: </label>
+          <select value={myInstrument} onChange={(e) => chooseInstrument(e.target.value)}>
+            {INSTRUMENTS.map((i) => <option key={i} value={i}>{i}</option>)}
+          </select>
+      </div>
+
+<WeeklyAssignment instrument={myInstrument} />
+
     <div className="card stats">
         <div className="stat">
             <div className="value">{Math.floor(totalMinutes / 60)}h {totalMinutes % 60}m</div>
@@ -117,7 +130,7 @@ export default function Dashboard() {
         <InstrumentPie sessions={sessions} />
     
       
-      <div className='Card'>
+      <div className='card'>
       <h2>Add a session</h2>
       <form onSubmit={handleSubmit}>
         <input type="date" name="date" value={form.date} onChange={handleChange} required />

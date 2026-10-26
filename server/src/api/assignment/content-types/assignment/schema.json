@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "assignments",
+  "info": {
+    "singularName": "assignment",
+    "pluralName": "assignments",
+    "displayName": "Assignment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Instrument": {
+      "type": "enumeration",
+      "enum": [
+        "VOCALS",
+        "KEYS",
+        "PAINO",
+        "DRUMS",
+        "BASS",
+        "GUITAR",
+        "OTHERS"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "youtube_url": {
+      "type": "string"
+    },
+    "week_start": {
+      "type": "date"
+    },
+    "note": {
+      "type": "text"
+    }
+  }
+}
