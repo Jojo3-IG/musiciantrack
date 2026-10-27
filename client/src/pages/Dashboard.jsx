@@ -5,7 +5,7 @@ import { minutesThisWeek, practiceStreak } from '../utils/stats';
 import InstrumentPie from '../components/InstrumentPie';
 import Encouragement from '../components/Encouragement';
 import WeeklyAssignment from '../components/WeeklyAssignments';
-
+// https://youtu.be/A_9HjbuaXxw?si=VtCFVbg1DiBA6D8B
 
 const INSTRUMENTS = ['piano', 'keys', 'drums', 'bass', 'guitar', 'vocals', 'other'];
 
@@ -103,15 +103,7 @@ function chooseInstrument(value) {
       </header>
       <Encouragement streak={streak} />
 
-    <div className="card">
-          <label>I play: </label>
-          <select value={myInstrument} onChange={(e) => chooseInstrument(e.target.value)}>
-            {INSTRUMENTS.map((i) => <option key={i} value={i}>{i}</option>)}
-          </select>
-      </div>
-
-<WeeklyAssignment instrument={myInstrument} />
-
+      
     <div className="card stats">
         <div className="stat">
             <div className="value">{Math.floor(totalMinutes / 60)}h {totalMinutes % 60}m</div>
@@ -125,7 +117,18 @@ function chooseInstrument(value) {
             <div className="value">{streak} 🔥</div>
             <div className="label">Day streak</div>
         </div>
+    </div>
+
+
+    <div className="card">
+          <label>I play: </label>
+          <select value={myInstrument} onChange={(e) => chooseInstrument(e.target.value)}>
+            {INSTRUMENTS.map((i) => <option key={i} value={i}>{i}</option>)}
+          </select>
       </div>
+
+<WeeklyAssignment instrument={myInstrument} />
+
 
         <InstrumentPie sessions={sessions} />
     

@@ -3,7 +3,7 @@ import { getAssignment } from "../api";
 
 function getYoutubeId(url) {
   const match = url.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);
-  return match ? [1] : null;
+  return match ? match[1] : null;
 }
 
 
@@ -12,12 +12,23 @@ export default function WeeklyAssignment({ instrument  }) {
     const [assignment, setAssignment] = useState(null);
     const [playing , setPlaying ] = useState(false);
 
-    useState(() => {
-        setPlaying(false);
-        getAssignment(instrument)
-            .then((res) => setAssignment(res.data.data[0] || null))
-            .catch(() => setAssignment(null));
-    }, [instrument]);
+    useEffect(() => {
+  let cancelled = false;
+  setPlaying(false);
+  setAssignment(null);
+
+  getAssignment(instrument)
+    .then((res) => {
+      if (!cancelled) setAssignment(res.data.data[0] || null);
+    })
+    .catch(() => {
+      if (!cancelled) setAssignment(null);
+    });
+
+  return () => {
+    cancelled = true;
+  };
+}, [instrument]);
 
       if (!assignment) {
     return (
@@ -43,6 +54,7 @@ export default function WeeklyAssignment({ instrument  }) {
               src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
               title={assignment.title}
               allow="autoplay; fullscreen"
+              
               allowFullScreen
             />
           ) : (
@@ -52,6 +64,7 @@ export default function WeeklyAssignment({ instrument  }) {
             </button>
           )}
         </div>
+        
       )}
 
       <p style={{ marginTop: 12 }}>

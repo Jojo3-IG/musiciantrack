@@ -494,8 +494,8 @@ export interface ApiAssignmentAssignment extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    Instrument: Schema.Attribute.Enumeration<
-      ['VOCALS', 'KEYS', 'PAINO', 'DRUMS', 'BASS', 'GUITAR', 'OTHERS']
+    instrument: Schema.Attribute.Enumeration<
+      ['piano', 'keys', 'drums', 'bass', 'guitar', 'vocals', 'other']
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<

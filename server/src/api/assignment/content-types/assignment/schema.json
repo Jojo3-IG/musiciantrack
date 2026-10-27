@@ -11,16 +11,16 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Instrument": {
+    "instrument": {
       "type": "enumeration",
       "enum": [
-        "VOCALS",
-        "KEYS",
-        "PAINO",
-        "DRUMS",
-        "BASS",
-        "GUITAR",
-        "OTHERS"
+        "piano",
+        "keys",
+        "drums",
+        "bass",
+        "guitar",
+        "vocals",
+        "other"
       ]
     },
     "title": {

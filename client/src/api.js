@@ -7,7 +7,8 @@ const api = axios.create({
 // Before every request, add the login token if we have one
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('jwt');
-  if (token) {
+  const isAuthRoute = config.url.startsWith('/auth/');
+  if (token && !isAuthRoute) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
@@ -32,3 +33,15 @@ export const getAssignment = (instrument) =>
       'pagination[limit]': 1,
     },
   });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const isAuthRoute = error.config?.url?.startsWith('/auth/');
+    if (error.response?.status === 401 && !isAuthRoute) {
+      localStorage.removeItem('jwt');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
