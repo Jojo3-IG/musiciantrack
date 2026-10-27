@@ -103,6 +103,7 @@ function chooseInstrument(value) {
       </header>
       <Encouragement streak={streak} />
 
+    <div className="layout">
       
     <div className="card stats">
         <div className="stat">
@@ -132,7 +133,8 @@ function chooseInstrument(value) {
 
         <InstrumentPie sessions={sessions} />
     
-      
+    
+<div className="side">
       <div className='card'>
       <h2>Add a session</h2>
       <form onSubmit={handleSubmit}>
@@ -162,5 +164,7 @@ function chooseInstrument(value) {
       </ul>
     </div>
     </div>
+  </div>
+</div> 
   );
 }
