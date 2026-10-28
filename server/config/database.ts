@@ -10,7 +10,7 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Database 
       `Unsupported DATABASE_CLIENT: ${client}. Use "postgres", "mysql", or "sqlite".`
     );
   }
-
+// npg_LmcYI8W0wyBv
   const connections: Record<Core.Config.Database.ClientKind, Core.Config.Database['connection']> = {
     mysql: {
       client: 'mysql',
