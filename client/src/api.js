@@ -1,7 +1,7 @@
-import axios from 'axios';
+const base = import.meta.env.VITE_API_URL || 'http://localhost:1337/api';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: base.endsWith('/api') ? base : `${base.replace(/\/$/, '')}/api`,
 });
 
 // Before every request, add the login token if we have one
@@ -20,8 +20,7 @@ export const getSessions = () => api.get('/practice-sessions?sort=date:desc');
 export const addSession = (data) => api.post('/practice-sessions', { data });
 export const deleteSession = (id) => api.delete(`/practice-sessions/${id}`);
 
-// TEMPORARY test: no filters, so we can read the real field names
-export const getAllAssignments = () => api.get('/assignments');
+
 
 // The real one, with filters
 export const getAssignment = (instrument) =>
