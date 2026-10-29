@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { getSessions, addSession, deleteSession,getAssignment,getAllAssignments} from '../api';
+import { getSessions, addSession, deleteSession} from '../api';
 import { minutesThisWeek, practiceStreak } from '../utils/stats';
 import InstrumentPie from '../components/InstrumentPie';
 import Encouragement from '../components/Encouragement';
